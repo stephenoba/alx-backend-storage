@@ -20,7 +20,7 @@ if __name__ == "__main__":
         {'method': 'GET', 'path': '/status'})
 
     print(f'{total_doc} logs')
-    print('Methods')
+    print('Methods:')
     print(f'\tmethod GET: {total_get}')
     print(f'\tmethod POST: {total_post}')
     print(f'\tmethod PUT: {total_put}')
