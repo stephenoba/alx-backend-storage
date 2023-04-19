@@ -32,5 +32,5 @@ class Cache:
         A key(str) for the data stored
         """
         key = str(uuid.uuid4())
-        self._redis.set({key: data})
+        self._redis.set(key, data)
         return key
