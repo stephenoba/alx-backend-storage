@@ -6,7 +6,7 @@ import uuid
 import redis
 from typing import Union, TypeVar
 
-T = TypeVar("T", bound="Cache")
+T = TypeVar("T")
 
 
 class Cache:
