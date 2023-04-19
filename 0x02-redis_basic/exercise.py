@@ -39,6 +39,20 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable) -> None:
+    """"""
+    method_name = method.__qualname__
+    cache = redis.Redis()
+    calls = cache.get(method_name).decode("utf-8")
+    print("{} was called {} times:".format(method_name, calls))
+    inputs = cache.lrange(method_name + ":inputs", 0, -1)
+    outputs = cache.lrange(method_name + ":outputs", 0, -1)
+    for _in, _out in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(
+            method_name, _in.decode('utf-8'),
+            _out.decode('utf-8')))
+
+
 class Cache:
     """
     Mapping for cache object. manages data using Redis
