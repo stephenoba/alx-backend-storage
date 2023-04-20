@@ -4,13 +4,13 @@
 from functools import wraps
 import redis
 import requests
-from typing import Callable
 
 _redis = redis.Redis()
 
 
 def get_page(url: str) -> str:
     """Obtain the HTML content of a URL"""
+    print(_redis.get('count:{}'.format(url)))
     if not _redis.get('count:{}'.format(url)):
         _redis.set('count:{}'.format(url), 0)
     _redis.incr("count:{}".format(url))
