@@ -11,14 +11,13 @@ _redis = redis.Redis()
 
 def get_page(url: str) -> str:
     """Obtain the HTML content of a URL"""
-    if _redis.get(f'count:{url}'):
-        _redis.incr(f"count:{url}")
-    else:
-        _redis.set(f'count:{url}', 1)
-    cached = _redis.get(f"cached:{url}")
+    if not _redis.get('count:{}'.format(url)):
+        _redis.set('count:{}'.format(url), 0)
+    _redis.incr("count:{}".format(url))
+    cached = _redis.get("cached:{}".format(url))
     if cached:
         return cached.decode('utf-8')
     req = requests.get(url)
     html = req.text
-    _redis.setex(f"cached:{url}", 10, html)
+    _redis.setex("cached:{}".format(url), 10, html)
     return html
